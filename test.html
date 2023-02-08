@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+        handleClick = () => {
+            let arr = ["7-15", "15-23", "23-7"];
+            // let arr = ["2-6", "8-12", "15-20"]
+            let date = new Date();
+            date.toUTCString();
+            // let shift = date.getHours();
+            let shift = 8
+            console.log("shift >>", shift)
+
+            for (let index = 0; index < arr.length; index++) {
+                let item = arr[index]
+                start = item.split("-")[0];
+                end = item.split("-")[1];
+                // start < 24
+                // end < 24
+
+                let cRangeFrom;
+                let cRangeTO;
+                let pRangeFrom;
+                let pRangeTo;
+                var range = {
+                    currentFrom: cRangeFrom,
+                    currentTo: cRangeTO,
+                    previousFrom: pRangeFrom,
+                    previousTo: pRangeTo,
+                };
+
+
+                if (shift >= start && shift < end) {
+                    console.log("index>>>", index);
+                    let currentRange = arr[index];
+
+
+                    var dateObj = new Date();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    let date = year + "/" + month + "/" + day;
+                    // let date = new Date()
+
+                    range.currentFrom = new Date(
+                        `${date} ${currentRange.split("-")[0]}:00:00 UTC`
+                    ).toISOString();
+                    range.currentTo = new Date(
+                        `${date} ${currentRange.split("-")[1]}:00:00 UTC`
+                    ).toISOString();
+                    if (index !== 0) {
+                        let previousRange = arr[index - 1];
+                        range.previousFrom = new Date(
+                            `${date} ${previousRange.split("-")[0]}:00:00 UTC`
+                        ).toISOString();
+                        range.previousTo = new Date(
+                            `${date} ${previousRange.split("-")[1]}:00:00 UTC`
+                        ).toISOString();
+                    } else {
+                        let previousRange = arr[arr.length - 1];
+                        let pStart = previousRange.split("-")[0]
+                        let pEnd = previousRange.split("-")[1]
+                        console.log("dddddd", previousRange)
+                        console.log("start", pStart)
+                        console.log("end", pEnd)
+                        // if (pStart <= 23 && pEnd < 9) {
+                        // if (pEnd < 23 && pStart > 12) {
+                        //     day = dateObj.getUTCDate() - 1;
+                        //     date = year + "/" + month + "/" + day;
+                        // }
+                        // if (pStart > pEnd) {
+                        //     console.log("true true")
+                        //     date = (new Date(Date.now() - 864e5)).toISOString()
+
+                        // }
+                        pStart > pEnd ? new Date(Date.now() - 864e5) : date
+                        range.previousFrom = new Date(
+                            `${date} ${pStart}:00:00 UTC`
+                        ).toISOString();
+                        range.previousTo = new Date(
+                            `${date} ${pEnd}:00:00 UTC`
+                        ).toISOString();
+                        // range.previousFrom = new Date(
+                        //     `${date} ${previousRange.split("-")[0]}:00:00 UTC`
+                        // ).toISOString();
+                        // range.previousTo = new Date(
+                        //     `${date} ${previousRange.split("-")[1]}:00:00 UTC`
+                        // ).toISOString();
+                        // }
+                        // else {
+                        //     console.log("previous range is not exist")
+                        // }
+                    }
+
+                }
+
+
+                else if ((shift && index === arr.length - 1)) {
+                    console.log("true true")
+                    let currentRange = arr[index];
+
+                    var dateObj = new Date();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var day = dateObj.getUTCDate();
+                    var year = dateObj.getUTCFullYear();
+
+                    let date = year + "/" + month + "/" + day;
+                    // let date = new Date()
+
+                    range.currentFrom = new Date(
+                        `${date} ${currentRange.split("-")[0]}:00:00 UTC`
+                    ).toISOString();
+                    range.currentTo = new Date(
+                        `${date} ${currentRange.split("-")[1]}:00:00 UTC`
+                    ).toISOString();
+
+                    let previousRange = arr[index - 1];
+                    range.previousFrom = new Date(
+                        `${date} ${previousRange.split("-")[0]}:00:00 UTC`
+                    ).toISOString();
+                    range.previousTo = new Date(
+                        `${date} ${previousRange.split("-")[1]}:00:00 UTC`
+                    ).toISOString();
+
+                    if (index !== 0) {
+                        console.log("helllllllll")
+                        let previousRange = arr[index - 1];
+                        range.previousFrom = new Date(
+                            `${date} ${previousRange.split("-")[0]}:00:00 UTC`
+                        ).toISOString();
+                        range.previousTo = new Date(
+                            `${date} ${previousRange.split("-")[1]}:00:00 UTC`
+                        ).toISOString();
+
+                    } else {
+                        let previousRange = arr[arr.length - 1];
+                        let pStart = previousRange.split("-")[0]
+                        let pEnd = previousRange.split("-")[1]
+                        console.log("dddddd", previousRange)
+                        console.log("start", pStart)
+                        console.log("end", pEnd)
+                        // if (pStart <= 23 && pEnd < 9) {
+                        if (pEnd < 23 && pStart > 9) {
+                            day = dateObj.getUTCDate() - 1;
+                            date = year + "/" + month + "/" + day;
+                        }
+                        range.previousFrom = new Date(
+                            `${date} ${pStart}:00:00 UTC`
+                        ).toISOString();
+                        range.previousTo = new Date(
+                            `${date} ${pEnd}:00:00 UTC`
+                        ).toISOString();
+                    }
+                }
+
+                // else if ((shift && index === arr.length - 1 && range.currentFrom == undefined && range.currentTo == undefined)) {
+                //     console.log("true true")
+                //     let currentRange = arr[index];
+
+                //     var dateObj = new Date();
+                //     var month = dateObj.getUTCMonth() + 1;
+                //     var day = dateObj.getUTCDate();
+                //     var year = dateObj.getUTCFullYear();
+
+                //     let date = year + "/" + month + "/" + day;
+                //     // let date = new Date()
+
+                //     range.currentFrom = new Date(
+                //         `${date} ${currentRange.split("-")[0]}:00:00 UTC`
+                //     ).toISOString();
+                //     range.currentTo = new Date(
+                //         `${date} ${currentRange.split("-")[1]}:00:00 UTC`
+                //     ).toISOString();
+                //     if (index !== 0) {
+                //         let previousRange = arr[index - 1];
+                //         range.previousFrom = new Date(
+                //             `${date} ${previousRange.split("-")[0]}:00:00 UTC`
+                //         ).toISOString();
+                //         range.previousTo = new Date(
+                //             `${date} ${previousRange.split("-")[1]}:00:00 UTC`
+                //         ).toISOString();
+                //     } else {
+                //         let previousRange = arr[arr.length - 1];
+                //         let pStart = previousRange.split("-")[0]
+                //         let pEnd = previousRange.split("-")[1]
+                //         console.log("dddddd", previousRange)
+                //         console.log("start", pStart)
+                //         console.log("end", pEnd)
+                //         // if (pStart <= 23 && pEnd < 9) {
+                //         if (pEnd < 23 && pStart > 12) {
+                //             day = dateObj.getUTCDate() - 1;
+                //             date = year + "/" + month + "/" + day;
+                //         }
+                //         range.previousFrom = new Date(
+                //             `${date} ${pStart}:00:00 UTC`
+                //         ).toISOString();
+                //         range.previousTo = new Date(
+                //             `${date} ${pEnd}:00:00 UTC`
+                //         ).toISOString();
+                //     }
+                // }
+
+
+
+                else {
+                    console.log("range is not exist");
+                    // for (let j = 0; j < arr.length; j++) {
+                    //     let item = arr[j]
+                    //     // console.log("item data >>>>>>>>>>>", item)
+                    //     start = item.split("-")[0];
+                    //     end = item.split("-")[1];
+                    //     // console.log("st>>>>", start)
+                    //     // console.log("end>>>>", end)
+                    //     if (j === arr.length - 1 && shift < start && shift < end) {
+                    //         console.log("range of not current but pre >>>>>", start, end)
+                    //     }
+                    // }
+                }
+                console.log("range", range)
+                // return range;
+
+            }
+            // console.log("range", range)
+
+            // let itemData = arr.map((item, index) => {
+            //     start = item.split("-")[0];
+            //     end = item.split("-")[1];
+            //     let cRangeFrom;
+            //     let cRangeTO;
+            //     let pRangeFrom;
+            //     let pRangeTo;
+            //     var range = {
+            //         currentFrom: cRangeFrom,
+            //         currentTo: cRangeTO,
+            //         previousFrom: pRangeFrom,
+            //         previousTo: pRangeTo,
+            //     };
+
+            //     if (shift >= start && shift < end) {
+            //         console.log("index>>>", index);
+            //         let currentRange = arr[index];
+            //         range.currentFrom = new Date(
+            //             `4 Jan 2023 ${currentRange.split("-")[0]}:00:00 UTC`
+            //         ).toISOString();
+            //         range.currentTo = new Date(
+            //             `4 Jan 2023 ${currentRange.split("-")[1]}:00:00 UTC`
+            //         ).toISOString();
+            //         if (index !== 0) {
+            //             let previousRange = arr[index - 1];
+            //             range.previousFrom = new Date(
+            //                 `4 Jan 2023 ${previousRange.split("-")[0]}:00:00 UTC`
+            //             ).toISOString();
+            //             range.previousTo = new Date(
+            //                 `4 Jan 2023 ${previousRange.split("-")[1]}:00:00 UTC`
+            //             ).toISOString();
+            //         } else {
+            //             let previousRange = arr[arr.length - 1];
+            //             range.previousFrom = new Date(
+            //                 `3 Jan 2023 ${previousRange.split("-")[0]}:00:00 UTC`
+            //             ).toISOString();
+            //             range.previousTo = new Date(
+            //                 `4 Jan 2023 ${previousRange.split("-")[1]}:00:00 UTC`
+            //             ).toISOString();
+            //         }
+            //     } else {
+            //         console.log("range is not exist");
+            //     }
+            //     console.log("range>>>", range);
+            //     return range;
+            // });
+        };
+    </script>
+</head>
+
+<body>
+    <button onclick="handleClick()">HELLO</button>
+</body>
+
+</html>
